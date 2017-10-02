@@ -1,0 +1,26 @@
+{
+  "name": "vis-tools",
+  "version": "1.0.0",
+  "description": "boilerplates for data visualisation with p5.js and d3.js",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chrischne/vis-tools.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chrischne/vis-tools/issues"
+  },
+  "homepage": "https://github.com/chrischne/vis-tools#readme",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-jshint": "^2.0.4",
+    "gulp-webserver": "^0.9.1",
+    "jshint": "^2.9.5",
+    "jshint-stylish": "^2.2.1"
+  }
+}
