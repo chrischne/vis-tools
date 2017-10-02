@@ -21,8 +21,8 @@ var vScale = d3.scaleLinear();  //d3.scalePow()
 var catScale = d3.scaleOrdinal();
 var colScale =  d3.scaleSequential(d3.interpolateRdBu);
 
-var xScale = d3.scalePoint();
-var yScale = d3.scalePoint();
+var xScale = d3.scaleBand().paddingInner(0.2).paddingOuter(0.1);
+var yScale = d3.scaleBand().paddingInner(0.2).paddingOuter(0.1);
 
 var vAcc = acc('count');
 var cat1Acc = acc('cat1');
@@ -78,13 +78,22 @@ function draw() {
 		.attr('y',function(d){
 			return yScale(cat2Acc(d));
 		})
-		.attr('width',50)
-		.attr('height',50)
+		.attr('width',xScale.bandwidth())
+		.attr('height',yScale.bandwidth())
 		.style('fill',function(d){
 			return colScale(vAcc(d));
+		})
+		.attr('data-toggle','tooltip')
+		.attr('data-html',true)
+		.attr('title',function(d){
+			var s = "";
+			s += '<span>'+ cat1Acc(d)+ '</span><br/>';
+			s += '<span>'+ cat2Acc(d) + '</span><br/>';
+			s += '<span>'+ vAcc(d) + '</span><br/>';
+			return s;
 		});
 
-
+		$('[data-toggle="tooltip"]').tooltip();
 
 }
 
