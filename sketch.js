@@ -6,15 +6,27 @@
 //helper function to create svg
 //basic tooltips
 
-var w = 800;
-var h = 600;
+
+//todo bounds object
 var margin = {top: 20, right: 10, bottom: 20, left: 10};
+
+var w = 800;
+var h = 800;
+var innerW = w - margin.left - margin.right;
+var innerH = h - margin.top - margin.bottom;
+
 
 
 var vScale = d3.scaleLinear();  //d3.scalePow()
 var catScale = d3.scaleOrdinal();
 var colScale =  d3.scaleSequential(d3.interpolateRdBu);
 
+var xScale = d3.scalePoint();
+var yScale = d3.scalePoint();
+
+var vAcc = acc('count');
+var cat1Acc = acc('cat1');
+var cat2Acc = acc('cat2');
 
 var file = 'data/sample.csv'; 
 var data = null;
@@ -25,6 +37,7 @@ function setup() {
 	console.log('setup');
 	//createCanvas(windowWidth, windowHeight);
 	noCanvas();
+	noLoop();
 
 	d3.csv(file)
 		.row(function(d){
@@ -41,12 +54,15 @@ function setup() {
 			}
 			data = mine(csv);
 			console.log('data',data);
+			ready = true;
+			redraw();
 		})
 
-	noLoop();
+	
 }
 
 function draw() {
+	console.log('draw');
 	if(!ready){
 		return;
 	}
@@ -58,17 +74,37 @@ function draw() {
 
 
 function mine(csv){
+
+	var cats1 = _.uniq(csv.map(cat1Acc));
+	var cats2 = _.uniq(csv.map(cat2Acc));
+	var maxVal = d3.max(csv,vAcc);
+	
+
+	vScale.domain([0,maxVal])
+		.range([0,100]);
+
+	colScale.domain([0,maxVal]);
+
+	xScale.domain(cats1)
+		.range([0,innerW]);
+		
+
+	yScale.domain(cats2)
+		.range([0,innerH]);
+
+
+
 	return csv;
+
+
 }
 
 function createSVG(parent){
 
-	var _w = w - margin.left - margin.right;
-    var _h = h - margin.top - margin.bottom;
 
 return  d3.select(parent).append("svg")
-					.attr("width", _w  + margin.left + margin.right)
-                    .attr("height", _h + margin.top + margin.bottom)
+					.attr("width", innerW  + margin.left + margin.right)
+                    .attr("height", innerH + margin.top + margin.bottom)
                     .append("g")
     				.attr("transform", translateString(margin.left,margin.top));
 
@@ -76,4 +112,10 @@ return  d3.select(parent).append("svg")
 
 function translateString(x,y){
 	return "translate(" + x + "," + y + ")";
+}
+
+function acc(id){
+	return function(d){
+		return d[id];
+	};
 }
