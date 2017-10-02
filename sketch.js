@@ -19,7 +19,7 @@ var innerH = h - margin.top - margin.bottom;
 
 var vScale = d3.scaleLinear();  //d3.scalePow()
 var catScale = d3.scaleOrdinal();
-var colScale =  d3.scaleSequential(d3.interpolateRdBu);
+var colScale =  d3.scaleSequential(/*d3.interpolateRdBu*/d3.interpolateBlues);
 
 var xScale = d3.scaleBand().paddingInner(0.2).paddingOuter(0.1);
 var yScale = d3.scaleBand().paddingInner(0.2).paddingOuter(0.1);
@@ -28,7 +28,7 @@ var vAcc = acc('count');
 var cat1Acc = acc('cat1');
 var cat2Acc = acc('cat2');
 
-var file = 'data/sample2.csv'; 
+var file = 'data/sample3.csv'; 
 var data = null;
 var ready = false;
 var svg = createSVG("#container");
