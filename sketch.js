@@ -28,7 +28,7 @@ var vAcc = acc('count');
 var cat1Acc = acc('cat1');
 var cat2Acc = acc('cat2');
 
-var file = 'data/sample.csv'; 
+var file = 'data/sample2.csv'; 
 var data = null;
 var ready = false;
 var svg = createSVG("#container");
@@ -67,6 +67,22 @@ function draw() {
 		return;
 	}
 
+	svg.selectAll('.entry')
+		.data(data)
+		.enter()
+		.append('rect')
+		.classed('entry',true)
+		.attr('x',function(d){
+			return xScale(cat1Acc(d));
+		})
+		.attr('y',function(d){
+			return yScale(cat2Acc(d));
+		})
+		.attr('width',50)
+		.attr('height',50)
+		.style('fill',function(d){
+			return colScale(vAcc(d));
+		});
 
 
 
